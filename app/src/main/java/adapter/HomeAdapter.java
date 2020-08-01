@@ -88,7 +88,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         }
 
         if (homeModel.getUpvoters().contains(currentUser)){
-            holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.like));
+            holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.colorPrimary));
         }
         else{
             holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.unlike));
@@ -102,17 +102,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             public void onClick(View v) {
                 if (homeModel.getUpvoters().contains(currentUser)){
                     holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext,R.color.unlike));
-                    db.collection("test").document(user).collection("question2")
+                    db.collection("users").document(user).collection("question")
                             .document(questionid).update("upvotes", FieldValue.increment(-1));
-                    db.collection("test").document(user).collection("question2")
+                    db.collection("users").document(user).collection("question")
                             .document(questionid).update("upvoters", FieldValue.arrayRemove(currentUser));
 
                 }
                 else{
-                    holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.like));
-                    db.collection("test").document(user).collection("question2")
+                    holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.colorPrimary));
+                    db.collection("users").document(user).collection("question")
                             .document(questionid).update("upvotes", FieldValue.increment(1));
-                    db.collection("test").document(user).collection("question2")
+                    db.collection("users").document(user).collection("question")
                             .document(questionid).update("upvoters", FieldValue.arrayUnion(currentUser));
 
                 }
@@ -144,9 +144,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 }
                 else
                 {
-                    db.collection("test").document(user).collection("question2")
+                    db.collection("users").document(user).collection("question")
                             .document(questionid).update("answer", FieldValue.arrayUnion(data));
-                    db.collection("test").document(user).collection("question2")
+                    db.collection("users").document(user).collection("question")
                             .document(questionid).update("user", FieldValue.arrayUnion(currentUser));
 
                 }

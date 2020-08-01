@@ -46,7 +46,7 @@ import java.util.Map;
 import adapter.HomeAdapter;
 import model.HomeModel;
 //import model.HomeModelAnswer;
-import model.InitialDataModel;
+//import model.InitialDataModel;
 import model.QuestionFeed;
 
 //import com.google.firebase.database.ChildEventListener;
@@ -123,7 +123,7 @@ public class ForumActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
 
-        db.collectionGroup("question2").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collectionGroup("question").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -350,31 +350,31 @@ public class ForumActivity extends AppCompatActivity {
 
 
                                     //Initialized and assign variable
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         //Set home screen selected
-        bottomNavigationView.setSelectedItemId(R.id.home);
+//        bottomNavigationView.setSelectedItemId(R.id.home);
 
-        //Perform ItemSelectListener
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.add_answer:
-                        startActivity(new Intent(getApplicationContext(), AddAnswer.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.my_content:
-                        startActivity(new Intent(getApplicationContext(), MyContent.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.home:
-                        return true;
-                }
-                return false;
-            }
-        });
+//        //Perform ItemSelectListener
+//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch (item.getItemId()){
+//                    case R.id.add_answer:
+//                        startActivity(new Intent(getApplicationContext(), AddAnswer.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
+//
+//                    case R.id.my_content:
+//                        startActivity(new Intent(getApplicationContext(), MyContent.class));
+//                        overridePendingTransition(0,0);
+//                        return true;
+//
+//                    case R.id.home:
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override
