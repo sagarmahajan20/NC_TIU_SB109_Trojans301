@@ -1,3 +1,5 @@
+
+#android
 *.iml
 .gradle
 /local.properties
@@ -12,3 +14,7 @@
 /captures
 .externalNativeBuild
 .cxx
+
+
+#API Node modules
+/API(not intrgrated)/node_modules
