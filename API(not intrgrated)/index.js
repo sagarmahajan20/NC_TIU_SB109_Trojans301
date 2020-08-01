@@ -5,7 +5,7 @@ http.createServer((req, res) => {
     res.write("Welcome back");
     res.end();
 }).listen(8080)*/
-let port = 9000;
+let port = process.env.PORT || 9000;
 const express = require("express");
 
 const app = express();
