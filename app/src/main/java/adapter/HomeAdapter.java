@@ -22,6 +22,7 @@ import com.example.olx.AllComment;
 import com.example.olx.ForumActivity;
 import com.example.olx.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -145,7 +146,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 else
                 {
                     db.collection("users").document(user).collection("question")
-                            .document(questionid).update("answer", FieldValue.arrayUnion(data));
+                            .document(questionid).update("answer", FieldValue.arrayUnion(data)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(mcontext, "Your comment added successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     db.collection("users").document(user).collection("question")
                             .document(questionid).update("user", FieldValue.arrayUnion(currentUser));
 
