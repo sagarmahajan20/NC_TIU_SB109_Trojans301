@@ -1,27 +1,39 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.olx.AllComment;
+import com.example.olx.ForumActivity;
 import com.example.olx.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.HomeModel;
-import model.HomeModelAnswer;
+//import model.HomeModelAnswer;
 
 import static com.example.olx.ForumActivity.currentUser;
 
@@ -35,15 +47,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     private Context mcontext;
     private List<HomeModel> entity;
-    private List<HomeModelAnswer> topVoteAns;
-    private List<String> answerId;
+//    private List<HomeModelAnswer> topVoteAns;
+    private List<String> questionId;
     private List<String> userid;
 
-    public HomeAdapter(Context mcontext, List<HomeModel> entity, List<HomeModelAnswer> topVoteAns, List<String> answerId, List<String> userid) {
+    public HomeAdapter(Context mcontext, List<HomeModel> entity, List<String> questionId, List<String> userid) {
         this.mcontext = mcontext;
         this.entity = entity;
-        this.topVoteAns = topVoteAns;
-        this.answerId = answerId;
+//        this.topVoteAns = topVoteAns;
+        this.questionId = questionId;
         this.userid = userid;
 
     }
@@ -59,20 +71,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final HomeViewHolder holder, int position) {
-        HomeModel homeModel =  entity.get(position);
-        final HomeModelAnswer homeModelAnswer = topVoteAns.get(position);
-        final String answerid = answerId.get(position);
+        final HomeModel homeModel =  entity.get(position);
+//        final HomeModelAnswer homeModelAnswer = topVoteAns.get(position);
+        final String questionid = questionId.get(position);
         final String user = userid.get(position);
 
-        holder.username.setText("placeholder");
-        holder.city.setText("city");
-        holder.question.setText(homeModel.getQuestion());
-        holder.answer.setText(homeModelAnswer.getAnswer());
-        holder.upvotes.setText(homeModelAnswer.getUpvotes()+"");
-        Picasso.get().load(homeModelAnswer.getImageurl()).placeholder(R.drawable.img).fit().into(holder.relatedImage);
 
-        if (homeModelAnswer.getUpvoters().contains(currentUser)){
-            holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.colorPrimary));
+
+        holder.question.setText(homeModel.getQuestion());
+        holder.upvotes.setText(homeModel.getUpvotes()+"");
+        if (homeModel.getImageUrl().isEmpty()){
+            holder.relatedImage.setVisibility(View.GONE);
+        }
+        else {
+            Picasso.get().load(homeModel.getImageUrl()).placeholder(R.drawable.img).fit().into(holder.relatedImage);
+        }
+
+        if (homeModel.getUpvoters().contains(currentUser)){
+            holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.like));
         }
         else{
             holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.unlike));
@@ -84,24 +100,67 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.upvoteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (homeModelAnswer.getUpvoters().contains(currentUser)){
+                if (homeModel.getUpvoters().contains(currentUser)){
                     holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext,R.color.unlike));
-                    db.collection("Users").document(user).collection("answer")
-                            .document(answerid).update("upvotes", FieldValue.increment(-1));
-                    db.collection("Users").document(user).collection("answer")
-                            .document(answerid).update("upvoters", FieldValue.arrayRemove(currentUser));
+                    db.collection("test").document(user).collection("question2")
+                            .document(questionid).update("upvotes", FieldValue.increment(-1));
+                    db.collection("test").document(user).collection("question2")
+                            .document(questionid).update("upvoters", FieldValue.arrayRemove(currentUser));
 
                 }
                 else{
-                    holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.colorPrimary));
-                    db.collection("Users").document(user).collection("answer")
-                            .document(answerid).update("upvotes", FieldValue.increment(1));
-                    db.collection("Users").document(user).collection("answer")
-                            .document(answerid).update("upvoters", FieldValue.arrayUnion(currentUser));
+                    holder.upvoteBtn.setBackgroundTintList(ContextCompat.getColorStateList(mcontext, R.color.like));
+                    db.collection("test").document(user).collection("question2")
+                            .document(questionid).update("upvotes", FieldValue.increment(1));
+                    db.collection("test").document(user).collection("question2")
+                            .document(questionid).update("upvoters", FieldValue.arrayUnion(currentUser));
 
                 }
 
 
+            }
+        });
+
+//        db.collection("test").document(currentUser).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()){
+//                    DocumentSnapshot doc = task.getResult();
+//                    String usercurrent = doc.getString("name");
+//                }
+//            }
+//        });
+
+        holder.sendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                Editable comm = (Editable)holder.commentBar.getText();
+//                Log.d("comment",comm.toString());
+                String data = holder.commentBar.getText().toString();
+//                Log.d("comment",c);
+                if (data.isEmpty()){
+                    Toast.makeText(mcontext, "Please Enter comment", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    db.collection("test").document(user).collection("question2")
+                            .document(questionid).update("answer", FieldValue.arrayUnion(data));
+                    db.collection("test").document(user).collection("question2")
+                            .document(questionid).update("user", FieldValue.arrayUnion(currentUser));
+
+                }
+
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mcontext, AllComment.class);
+                intent.putStringArrayListExtra("answerArray", (ArrayList<String>) homeModel.getAnswer());
+                intent.putExtra("question",homeModel.getQuestion());
+                mcontext.startActivity(intent);
             }
         });
 
@@ -115,8 +174,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {
         public TextView username,city,question,answer,upvotes;
-        public Button upvoteBtn;
+        public Button upvoteBtn,comment;
+        public EditText commentBar;
         public ImageView relatedImage;
+        public ImageButton sendComment;
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.name);//taking name
@@ -126,6 +187,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             upvotes = itemView.findViewById(R.id.votes);//taking votes
             upvoteBtn = itemView.findViewById(R.id.upVote_btn); //upvote btn
             relatedImage = itemView.findViewById(R.id.required_img);
+            sendComment = itemView.findViewById(R.id.sendComment);
+            commentBar = itemView.findViewById(R.id.commentBar);
+            comment = itemView.findViewById(R.id.comment);
         }
     }
 
