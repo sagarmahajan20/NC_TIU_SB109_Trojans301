@@ -2,14 +2,19 @@ package com.example.olx;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,11 +39,14 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import adapter.HomeAdapter;
 import model.HomeModel;
-import model.HomeModelAnswer;
+//import model.HomeModelAnswer;
+import model.InitialDataModel;
 import model.QuestionFeed;
 
 //import com.google.firebase.database.ChildEventListener;
@@ -49,30 +57,28 @@ import model.QuestionFeed;
 
 public class ForumActivity extends AppCompatActivity {
 
-    public static String currentUser = "UnqsZYCkMKX42nmvdtIW";
+    public static String currentUser = "sagar";
 
 
     private Toolbar toolbar;
     private RecyclerView feedRecyclerView;
     private RecyclerView.Adapter mDataAdapter;
     private ProgressBar progressBar;
+    private ImageView error;
 
 
-    public String name,questionid;
+    public String userId,questionid;
     public HomeModel homeModel = new HomeModel();
     public List<HomeModel> entity = new ArrayList<>();
-    public HomeModelAnswer homeModelAnswer = new HomeModelAnswer();
-    public List<HomeModelAnswer> topVoteAns = new ArrayList<>();
-    public List<String> answerId = new ArrayList<>();
-    public List<String > userid = new ArrayList<>();
+//    public HomeModelAnswer homeModelAnswer = new HomeModelAnswer();
+//    public List<HomeModelAnswer> topVoteAns = new ArrayList<>();
+    public List<String> questionIdList = new ArrayList<>();
+    public List<String > useridList = new ArrayList<>();
+//    public List<InitialDataModel> initialDataList = new ArrayList<>();
+//    public InitialDataModel initialDataModel = new InitialDataModel();
+    public List<String > sharedPreferenceList = new ArrayList<>();
+    public List<String > sharedPreferenceList2 = new ArrayList<>();
 
-
-    //List to store all question that match perticular requirements
-    List<QuestionFeed> questionList ;
-
-    QuestionFeed questionFeed;
-
-    List<String> idOfQuestions;
 
     //firebase obj
     // Access a Cloud Firestore instance from your Activity
@@ -97,7 +103,7 @@ public class ForumActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>Home </font>"));
         setContentView(R.layout.activity_forum);
 
-
+        error = findViewById(R.id.error);
 
         feedRecyclerView = findViewById(R.id.recyclerview);
 
@@ -109,108 +115,214 @@ public class ForumActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         feedRecyclerView.setLayoutManager(layoutManager);
-        mDataAdapter = new HomeAdapter(this,entity,topVoteAns,answerId,userid);
+        mDataAdapter = new HomeAdapter(this,entity,questionIdList,useridList);
 
         feedRecyclerView.setAdapter(mDataAdapter);
 
         progressBar =  findViewById(R.id.progressBarMain1);
         progressBar.setVisibility(View.VISIBLE);
 
-        readTags(new MyCallback() {
+
+        db.collectionGroup("question2").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onCallBack(List<String> tags) {
-                Log.d("callback", tags.toString());
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("errorL", "Listen failed.", e);
+                    return;
+                }
+                entity.clear();
+                questionIdList.clear();
+                useridList.clear();
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        progressBar.setVisibility(View.INVISIBLE);
+                        homeModel = doc.toObject(HomeModel.class);
+                        entity.add(homeModel);
 
-                //Fetching all documents(question) where question tag == explore tag
-                db.collectionGroup("question")
-                        .whereArrayContainsAny("tags",Arrays.asList(tags.get(0), tags.get(1), tags.get(2)))
+                        questionid = doc.getId();
+                        questionIdList.add(questionid);
 
-                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            progressBar.setVisibility(View.INVISIBLE);
-                            for (QueryDocumentSnapshot document : task.getResult())
-                            {
-                                if(document.getBoolean("isanswered")==true){
+                        userId = doc.getReference().getParent().getParent().getId();
+                        useridList.add(userId);
 
-                                    homeModel = document.toObject(HomeModel.class);
-                                    Log.d("ting",document.getData().toString());
-                                    entity.add(homeModel);
-
-                                    String questionid = document.getId();
-                                    Log.d("id",questionid);
-
-                                    SharedPreferences preferences=getSharedPreferences("home",MODE_PRIVATE);
-                                    SharedPreferences.Editor editor=preferences.edit();
-                                    editor.putString("questionid",questionid);
-                                    editor.commit();
-
-
-
-
-//                                      HomeModel homeModel = document.toObject(HomeModel.class);
-//                                      entity.add(homeModel);
-
-
-//                                    homeModel.setCity(document.getString("city"));
-//                                    homeModel.setName(document.getString("name"));
-//                                    homeModel.setAnswer(document.getString("answer"));
-//                                    homeModel.setQuestion(document.getString("question"));
-//                                    homeModel.setUpvotes(document.getLong("upvotes").intValue());
-
-                                    //mdatalist.add(homeModel);
-//                                    List<String> nname = new ArrayList<>();
-//                                    nname.add(name);
-//                                    Intent intent = new Intent(ForumActivity.this,AddAnswer.class);
-//                                    intent.putExtra("name",nname.toString());
-//                                    startActivity(intent);
-                                }
-
-                            }
-                            mDataAdapter.notifyDataSetChanged();
-
-                        } else {
-                            Log.d("data2", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-
+                }
+                mDataAdapter.notifyDataSetChanged();
             }
         });
 
-        SharedPreferences preferences=getSharedPreferences("home",MODE_PRIVATE);
-        String n = preferences.getString("questionid","defaultValue");
-        db.collectionGroup("answer").whereEqualTo("queId",n).orderBy("upvotes", Query.Direction.DESCENDING).limit(1)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w("errorL", "Listen failed.", e);
-                            return;
-                        }
-                        topVoteAns.clear();
-                        answerId.clear();
-                        userid.clear();
-                        for (QueryDocumentSnapshot doc : value) {
-                            if (doc.exists()) {
-                                homeModelAnswer = doc.toObject(HomeModelAnswer.class);
-                                Log.d("ans",doc.getData().toString());
-                                topVoteAns.add(homeModelAnswer);
-                                answerId.add(doc.getId());
 
-                                String userId = doc.getReference().getParent().getParent().getId();
-                                userid.add(userId);
+//        readTags(new MyCallback() {
+//            @Override
+//            public void onCallBack(List<String> tags) {
+//                Log.d("callback", tags.toString());
 
-                                doc.getReference().getParent().getParent().getId();
-                            }
-                        }
-                        mDataAdapter.notifyDataSetChanged();
-                    }
-                });
+//                //Fetching all documents(question) where question tag == explore tag
+//                db.collectionGroup("question")
+//                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            progressBar.setVisibility(View.INVISIBLE);
+//
+//                            for (QueryDocumentSnapshot document : task.getResult())
+//                            {
+//                                if(document.getBoolean("isanswered")==true){
+//
+//                                    homeModel = document.toObject(HomeModel.class);
+//                                    Log.d("ting",document.getData().toString());
+//                                    entity.add(homeModel);
+//                                    String questionid = document.getId();
+//                                    Log.d("id",questionid);
+//
+////                                    sharedPreferenceList.add(questionid);
+//
+//                                    db.collectionGroup("answer").whereEqualTo("queId",questionid)
+//                                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                                                        @Override
+//                                                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+//                                                            if (e != null) {
+//                                                                Log.w("errorL", "Listen failed.", e);
+//                                                                return;
+//                                                            }
+////                                                    topVoteAns.clear();
+////                                                    answerId.clear();
+////                                                    userid.clear();
+//                                                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+//                                                        if (doc.exists()) {
+//                                                            homeModelAnswer = doc.toObject(HomeModelAnswer.class);
+//                                                            Log.d("ans", doc.getData().toString());
+//                                                            topVoteAns.add(homeModelAnswer);
+//
+//                                                            Log.d("testing","testing");
+//                                                            answerId.add(doc.getId());
+//
+//                                                            String userId = doc.getReference().getParent().getParent().getId();
+//                                                            userid.add(userId);
+//
+//                                                            //getting name of answer user
+////                                    doc.getReference().getParent().getParent().getId();
+//                                                        }
+//                                                        else {
+//                                                            Log.d("tempError","error 404");
+//                                                        }
+//                                                    }
+//                                                }
+//                                            });
+//
+////                                    SharedPreferences preferences=getSharedPreferences("home",MODE_PRIVATE);
+////                                    SharedPreferences.Editor editor=preferences.edit();
+////                                    editor.putString(questionid,questionid);
+////                                    editor.commit();
+//
+//
+//                                }
+////                                else{
+////
+//////                                    db.collectionGroup("fakeData").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//////                                        @Override
+//////                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//////                                            if (task.isSuccessful()) {
+//////                                                progressBar.setVisibility(View.INVISIBLE);
+//////                                                for (QueryDocumentSnapshot document : task.getResult()){
+//////                                                    if (document.exists()){
+//////                                                        initialDataModel = document.toObject(InitialDataModel.class);
+//////                                                        initialDataList.add(initialDataModel);
+//////                                                    }
+//////                                                }
+//////
+//////                                            }
+//////                                        }
+//////                                    });
+//////                                    error.setVisibility(View.VISIBLE);
+//////                                    progressBar.setVisibility(View.INVISIBLE);
+////                                    Toast.makeText(ForumActivity.this, "Sorry! Server Error", Toast.LENGTH_SHORT).show();
+////
+////                                }
+//
+//                            }
+//                            Log.d("q",entity.toString());
+//                            Log.d("top", topVoteAns.toString());
+//                            mDataAdapter.notifyDataSetChanged();
+////                            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ForumActivity.this);
+////                            SharedPreferences.Editor mEdit1 = sp.edit();
+////
+////                            mEdit1.putInt("Status_size", sharedPreferenceList.size());
+//
+////                            for(int i=0;i<sharedPreferenceList.size();i++)
+////                            {
+////                                mEdit1.remove("Status_" + i);
+////                                mEdit1.putString("Status_" + i, sharedPreferenceList.get(i));
+////                            }
+////                            mEdit1.commit();
+////                            Log.d("idl",sharedPreferenceList.toString());
+//
+//
+//                        } else {
+//                            Log.d("data2", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
 
+
+//            }
+//        });
+
+//        SharedPreferences preferences=getSharedPreferences("home",MODE_PRIVATE);
+//        String n = preferences.getString("questionid","defaultValue");
+
+//        SharedPreferences mSharedPreference1 =   PreferenceManager.getDefaultSharedPreferences(ForumActivity.this);
+
+//        int size = mSharedPreference1.getInt("Status_size", 0);
+
+//        for(int i=0;i<size;i++) {
+//            sharedPreferenceList.add(mSharedPreference1.getString("Status_" + i, null));
+//            Log.d("nh", String.valueOf(size));
+//
+////        Log.d("n",n);
+////        if(n == "defaultValue")
+////        {
+//////            error.setVisibility(View.VISIBLE);
+//////            progressBar.setVisibility(View.INVISIBLE);
+////            Toast.makeText(ForumActivity.this, "Sorry! Server Error", Toast.LENGTH_SHORT).show();
+////
+////        }
+////        else {
+//            Log.d("nhq",mSharedPreference1.getString("Status_" + i, null));
+//            db.collectionGroup("answer").whereEqualTo("queId", mSharedPreference1.getString("Status_" + i, null)).orderBy("upvotes", Query.Direction.DESCENDING).limit(1)
+//                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onEvent(@Nullable QuerySnapshot value,
+//                                            @Nullable FirebaseFirestoreException e) {
+//                            if (e != null) {
+//                                Log.w("errorL", "Listen failed.", e);
+//                                return;
+//                            }
+//                            topVoteAns.clear();
+//                            answerId.clear();
+//                            userid.clear();
+//                            for (QueryDocumentSnapshot doc : value) {
+//                                if (doc.exists()) {
+//                                    homeModelAnswer = doc.toObject(HomeModelAnswer.class);
+//                                    Log.d("ans", doc.getData().toString());
+//                                    topVoteAns.add(homeModelAnswer);
+//
+//                                    answerId.add(doc.getId());
+//
+//                                    String userId = doc.getReference().getParent().getParent().getId();
+//                                    userid.add(userId);
+//
+//                                    //getting name of answer user
+////                                    doc.getReference().getParent().getParent().getId();
+//                                }
+//                            }
+//                            Log.d("top", topVoteAns.toString());
+//
+//
+//                        }
+//                    });
+//        }
+//        Log.d("top1", answerId.toString());
+//        mDataAdapter.notifyDataSetChanged();
+////        }
 //
 //
 //                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -232,81 +344,12 @@ public class ForumActivity extends AppCompatActivity {
 //            }
 //        });
 
-        //Cloud function code
-
-//        db.collectionGroup("question").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()){
-//                            for(QueryDocumentSnapshot document :task.getResult()){
-//                                if (document.getBoolean("IsAnswered") == true) {
-//                                    idOfQuestions.add(document.getId());//getting Id's of all question document in the database.
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
-//
-//
-//        for (String id : idOfQuestions) {
-//
-//            db.collectionGroup("answer").whereEqualTo("quesId", id).orderBy("upvotes", Query.Direction.DESCENDING).limit(1)
-//                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                    if (task.isSuccessful()) {
-//
-//                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                            document.getString("answer");
-//                            document.getString("upvotes");
-//                            //Fetching personal data of the user who has got highest voted answer//
-//                            document.getReference().getParent().getParent().get()
-//                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                    if (task.isSuccessful()){
-//                                        DocumentSnapshot document2 = task.getResult();
-//                                        if (document2.exists()){
-//                                            document2.getString("name");
-//                                            document2.getString("city");
-//                                            document2.getString("profile");
-//                                        }
-//                                    }
-//                                }
-//                            });
-//
-//                        }
-//                    }
-//
-//                }
-//            });
-//
-//        }
-        //cloud function code
-
-
-       /* Query question = db.collectionGroup("question");
-        Query question_tag = question.whereArrayContains("Tags",Arrays.asList("a"));
-         question_tag.whereArrayContains("IsAnswered",true).
-                 get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-
-                        Log.d("data", document.getId() + " => " + document.getData());
-
-                    }
-                } else {
-                    Log.d("data2", "Error getting documents: ", task.getException());
-                }
-            }
-        });*/
 
 
 
-        //Initialized and assign variable
+
+
+                                    //Initialized and assign variable
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         //Set home screen selected
         bottomNavigationView.setSelectedItemId(R.id.home);
@@ -326,10 +369,6 @@ public class ForumActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
 
-//                    case R.id.notification:
-//                        startActivity(new Intent(getApplicationContext(),Chatbot.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
                     case R.id.home:
                         return true;
                 }
@@ -367,27 +406,27 @@ public class ForumActivity extends AppCompatActivity {
     }
 
 
-    public void readTags(final MyCallback myCallback){
-
-        //**HomeAdapter List data fecthing**//
-        DocumentReference user = db.collection("Users").document(currentUser);
-
-        user.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
-                        List<String> explore ;
-                        explore = (List<String>) document.get("explore");
-                        myCallback.onCallBack(explore);
-                    }
-                }
-
-            }
-        });
-
-    }
+//    public void readTags(final MyCallback myCallback){
+//
+//        //**HomeAdapter List data fecthing**//
+//        DocumentReference user = db.collection("Users").document(currentUser);
+//
+//        user.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if(task.isSuccessful()){
+//                    DocumentSnapshot document = task.getResult();
+//                    if(document.exists()){
+//                        List<String> explore ;
+//                        explore = (List<String>) document.get("explore");
+//                        myCallback.onCallBack(explore);
+//                    }
+//                }
+//
+//            }
+//        });
+//
+//    }
 
 
 }
