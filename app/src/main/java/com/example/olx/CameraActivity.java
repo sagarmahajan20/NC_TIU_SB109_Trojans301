@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -57,24 +58,36 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide();
         setContentView(R.layout.activity_camera);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mCamera = findViewById(R.id.activity_camera_camera_view);
-        mGallery = findViewById(R.id.activity_camera_button_gallery);
+        mGallery = findViewById(R.id.activity_camera_button_gallery)
+        ;
         mClose = findViewById(R.id.activity_camera_button_close);
         mClick = findViewById(R.id.activity_camera_button_click);
+
+
         mRetry = findViewById(R.id.activity_camera_button_retry);
         mDetect = findViewById(R.id.activity_camera_text_view_detect);
         mImageView = findViewById(R.id.activity_camera_image_view);
+
+
         mFlash = findViewById(R.id.activity_camera_button_flash);
         mCameraToggle = findViewById(R.id.activity_camera_button_camera_toggle);
         mListView = findViewById(R.id.activity_camera_list_view);
+
+
+
+
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { startActivity(new Intent(CameraActivity.this, MainActivity.class)); }
+            public void onClick(View view) { startActivity(new Intent(CameraActivity.this, Home.class)); }
         });
         mCamera.addCameraKitListener(new CameraKitEventListener() {
             @Override
@@ -84,7 +97,7 @@ public class CameraActivity extends AppCompatActivity {
 
             @Override
             public void onError(CameraKitError cameraKitError) {
-
+//                Log.d("cameraerror","error");
             }
 
             @Override
@@ -176,7 +189,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void clicked() {
         mCamera.captureImage();
-        mCamera.stop();
+//        mCamera.stop();
     }
 
 
