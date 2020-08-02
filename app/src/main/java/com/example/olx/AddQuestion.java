@@ -43,8 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-//import com.google.firebase.database.DatabaseReference;
-//import com.google.firebase.database.FirebaseDatabase;
 
 public class AddQuestion extends AppCompatActivity {
 
@@ -112,14 +110,7 @@ public class AddQuestion extends AppCompatActivity {
 
 
 
-//        //toolbar
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("Add Question");
-//        toolbar.setLogo(R.drawable.account);
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-//        getSupportActionBar().hide();
         getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>Add Question </font>"));
 
         setContentView(R.layout.activity_add_question);
@@ -210,34 +201,7 @@ public class AddQuestion extends AppCompatActivity {
                         });
                     }
 
-                //creating a map to add values.
-//                insertValues.put("Question",question);
-//                insertValues.put("Tags",tags);
-//                insertValues.put("IsAnswered",false);
-                //insertValues.put("timestamp", FieldValue.serverTimestamp());
-
-                //Inserting values in the database.
-//
-//                db.collection("users").whereArrayContainsAny("interest", Arrays.asList(tag1.toLowerCase(),tag2.toLowerCase(),tag3.toLowerCase())).get()
-//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()){
-//                                    for (QueryDocumentSnapshot document : task.getResult()){
-//                                        eligibleUsers.add(document.getId());
-//                                    }
-//
-//                                    insertValues.put("question",question);
-//                                    insertValues.put("tags",tags);
-//                                    insertValues.put("isanswered",false);
-//                                    insertValues.put("eligibleUsers",eligibleUsers);
-//                                }
-
-
-
-//                            }
-//                        });
-
+                
 
 
 
