@@ -37,9 +37,9 @@ public class Irrigation extends AppCompatActivity {
 
         tex1tView13 = findViewById(R.id.tex1tView13);
         textView13 = findViewById(R.id.textView13);
-//        URL parameterUrl = NetworkUtils.buildUrlForParameter();
-//        new FetchParameterDetails().execute(parameterUrl);
-//        Log.i(TAG, "onCreate: parameterUrl: " + parameterUrl);
+        URL parameterUrl = NetworkUtils.buildUrlForParameter();
+        new FetchParameterDetails().execute(parameterUrl);
+        Log.i(TAG, "onCreate: parameterUrl: " + parameterUrl);
     }
     private class FetchParameterDetails extends AsyncTask<URL, Void, String> {
 
@@ -52,7 +52,11 @@ public class Irrigation extends AppCompatActivity {
         protected String doInBackground(URL... urls) {
             URL parameterUrl = urls[0];
             String parameterSearchResults = null;
-
+            try {
+                parameterSearchResults = NetworkUtils.getResponseFromHttpUrl(parameterUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Log.i(TAG, "doInBackground: parameterSearchResults: " + parameterSearchResults);
             return parameterSearchResults;
         }
