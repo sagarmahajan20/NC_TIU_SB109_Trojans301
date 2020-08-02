@@ -2,6 +2,7 @@ package com.example.olx;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -18,12 +19,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
+
 public class Irrigation extends AppCompatActivity {
 
-    private String ApiUrl = "https://sih-2020-1.herokuapp.com";
-    private String temperature,ph,moisture;
-
-    private TextView mtemp , mpHScale , mMoist;
+    private static final String TAG = Irrigation.class.getSimpleName();
+    TextView tex1tView13;
+    TextView textView13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,37 +35,48 @@ public class Irrigation extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_irrigation);
 
-       /* mtemp = findViewById(R.id.temperature);
-        mpHScale = findViewById(R.id.pH);
-        mMoist = findViewById(R.id.moisture);
+        tex1tView13 = findViewById(R.id.tex1tView13);
+        textView13 = findViewById(R.id.textView13);
+        URL parameterUrl = NetworkUtils.buildUrlForParameter();
+        new FetchParameterDetails().execute(parameterUrl);
+        Log.i(TAG, "onCreate: parameterUrl: " + parameterUrl);
+    }
+    private class FetchParameterDetails extends AsyncTask<URL, Void, String> {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, ApiUrl, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            URL parameterUrl = urls[0];
+            String parameterSearchResults = null;
+            try {
+                parameterSearchResults = NetworkUtils.getResponseFromHttpUrl(parameterUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.i(TAG, "doInBackground: parameterSearchResults: " + parameterSearchResults);
+            return parameterSearchResults;
+        }
+
+        @Override
+        protected void onPostExecute(String parameterSearchResults) {
+            if (parameterSearchResults != null && !parameterSearchResults.equals("")) {
+                //Just for testing
                 try {
-                    temperature = response.getString("temperature");
-                    moisture = response.getString("moister");
-                    ph = response.getString("pH");
-
-                    mtemp.setText(temperature);
-                    mpHScale.setText(ph);
-                    mMoist.setText(moisture);
-
-//                    Log.d("temp",temperature);
-
+                    JSONObject rootObject = new JSONObject(parameterSearchResults);
+                    JSONObject result = rootObject.getJSONObject("orange");
+                    String pH = result.getString("pH").substring(0,6);
+                    String moister = result.getString("moister").substring(0,6);
+                    textView13.setText(pH);
+                    tex1tView13.setText(moister);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("error","something went wrong"+error);
-            }
-        });
-        requestQueue.add(objectRequest);*/
+            super.onPostExecute(parameterSearchResults);
+        }
     }
 }
