@@ -63,7 +63,19 @@ public class Irrigation extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String parameterSearchResults) {
-
+            if (parameterSearchResults != null && !parameterSearchResults.equals("")) {
+                //Just for testing
+                try {
+                    JSONObject rootObject = new JSONObject(parameterSearchResults);
+                    JSONObject result = rootObject.getJSONObject("orange");
+                    String pH = result.getString("pH").substring(0,6);
+                    String moister = result.getString("moister").substring(0,6);
+                    textView13.setText(pH);
+                    tex1tView13.setText(moister);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             super.onPostExecute(parameterSearchResults);
         }
     }
