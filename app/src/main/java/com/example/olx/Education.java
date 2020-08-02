@@ -29,14 +29,14 @@ import model.EducationModel;
 public class Education extends AppCompatActivity {
 
     Button myscheme;
-    SearchView searchView;
+    SearchView ssearchView;
     private List<EducationModel> entity;
-    RecyclerView sRecyclerView ;
+    private RecyclerView sRecyclerView ;
     //    SearchView searchView;
 //    Button filter;
     String filterName;
 
-    private RecyclerView mRecyclerView;
+
 
     //firebase obj
     // Access a Cloud Firestore instance from your Activity
@@ -63,7 +63,7 @@ public class Education extends AppCompatActivity {
         sRecyclerView.setHasFixedSize(true);
         sRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         entity = new ArrayList<>();
-        searchView =  findViewById(R.id.searchView1);
+        ssearchView =  findViewById(R.id.searchView1);
         filterName = "filter";
         myscheme = findViewById(R.id.myscheme);
 
@@ -100,54 +100,7 @@ public class Education extends AppCompatActivity {
                 });
 
 
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                String query2 = new String(query);
-//
-//                try {
-//                    int income = Integer.parseInt(query);
-//                    if (income <= 250000) {
-//                        query2 = "less";
-//                    } else if (income > 250000) {
-//                        query2 = "greater";
-//                    } else if (income <= 800000) {
-//                        query2 = "medium";
-//                    }
-//
-//                } catch (NumberFormatException nfe) {
-//
-//
-//
-//                }
-//                db.collection("scheme").document("education").collection("postmatric_scheme").
-//                        whereArrayContains("sort", query2.toLowerCase())
-//                        .get()
-//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    EducationList.clear();
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        educationModel = document.toObject(EducationModel.class);
-//                                        EducationList.add(educationModel);
-//                                        Log.d("kalyan", document.getId() + " => " + document.getData());
-//                                    }
-//                                    mDataAdapter.notifyDataSetChanged();
-//                                } else {
-//                                    Log.d("kalyan", "Error getting documents: ", task.getException());
-//                                }
-//                            }
-//                        });
-//
-//                return false;
-//            }
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
+
 
 
 
@@ -157,8 +110,8 @@ public class Education extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        if (ssearchView != null) {
+            ssearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     return false;
@@ -180,17 +133,17 @@ public class Education extends AppCompatActivity {
 
     private void search(String str)
     {
-        ArrayList<EducationModel> myLista = new ArrayList<>();
+        ArrayList<EducationModel> myList = new ArrayList<>();
         for(EducationModel object : entity)
         {
             if(object.getName().toLowerCase().contains(str.toLowerCase()))
             {
-                myLista.add(object);
+                myList.add(object);
             }
         }
 
-        EducationAdapter searchimagea = new EducationAdapter(Education.this,myLista);
-        sRecyclerView.setAdapter(searchimagea);
+        EducationAdapter searchimage = new EducationAdapter(Education.this,myList);
+        sRecyclerView.setAdapter(searchimage);
 
 
     }

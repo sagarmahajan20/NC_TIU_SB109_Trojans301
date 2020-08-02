@@ -58,7 +58,11 @@
 
 
     </androidx.appcompat.widget.Toolbar>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/darker_gray" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
