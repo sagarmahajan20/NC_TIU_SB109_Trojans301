@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/logoofsih_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Myscheme"></activity>
         <activity android:name=".CameraActivity" />
         <activity android:name=".Irrigation" />
         <activity android:name=".Chatbot" />
@@ -21,17 +22,16 @@
         <activity android:name=".Profile" />
         <activity android:name=".ImagesActivity" />
         <activity android:name=".Sell" />
-        <activity android:name=".ForumActivity"/>
-        <activity android:name=".Education"/>
-        <activity android:name=".AddQuestion"/>
-        <activity android:name=".Add_pert_answer"/>
-        <activity android:name=".AddAnswer"/>
-        <activity android:name=".EducationPerticularScheme"/>
-        <activity android:name=".Search"/>
-        <activity android:name=".SearchedAnswer"/>
-        <activity android:name=".MyContent"/>
-        <activity android:name=".AllComment"/>
-
+        <activity android:name=".ForumActivity" />
+        <activity android:name=".Education" />
+        <activity android:name=".AddQuestion" />
+        <activity android:name=".Add_pert_answer" />
+        <activity android:name=".AddAnswer" />
+        <activity android:name=".EducationPerticularScheme" />
+        <activity android:name=".Search" />
+        <activity android:name=".SearchedAnswer" />
+        <activity android:name=".MyContent" />
+        <activity android:name=".AllComment" />
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashScreen">

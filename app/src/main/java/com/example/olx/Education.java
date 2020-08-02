@@ -1,8 +1,12 @@
 package com.example.olx;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -24,10 +28,15 @@ import model.EducationModel;
 
 public class Education extends AppCompatActivity {
 
-    RecyclerView eduRecyclerView ;
+    Button myscheme;
+    SearchView searchView;
+    private List<EducationModel> entity;
+    RecyclerView sRecyclerView ;
     //    SearchView searchView;
 //    Button filter;
     String filterName;
+
+    private RecyclerView mRecyclerView;
 
     //firebase obj
     // Access a Cloud Firestore instance from your Activity
@@ -41,22 +50,36 @@ public class Education extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>Schemes</font>"));
+        //getSupportActionBar().setTitle(Html.fromHtml("<font color='#000000'>Schemes</font>"));
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_education);
 
-        eduRecyclerView = findViewById(R.id.educationRecyclerView);
+        //eduRecyclerView = findViewById(R.id.educationRecyclerView);
 //        filter = findViewById(R.id.filterBtn);
 
 //        searchView = findViewById(R.id.searchView);
-
-
+        sRecyclerView = findViewById(R.id.educationRecyclerView);
+        sRecyclerView.setHasFixedSize(true);
+        sRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        entity = new ArrayList<>();
+        searchView =  findViewById(R.id.searchView1);
         filterName = "filter";
+        myscheme = findViewById(R.id.myscheme);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        eduRecyclerView.setLayoutManager(layoutManager);
+        sRecyclerView.setLayoutManager(layoutManager);
         mDataAdapter = new EducationAdapter(this,EducationList);
-        eduRecyclerView.setAdapter(mDataAdapter);
+        sRecyclerView.setAdapter(mDataAdapter);
+
+
+        myscheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Myscheme.class));
+            }
+        });
 
         db.collection("Government Schemes")
                 .get()
@@ -125,5 +148,51 @@ public class Education extends AppCompatActivity {
 //                return false;
 //            }
 //        });
+
+
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+
+                    search(s);
+                    return true;
+                }
+
+
+            });
+        }
+
+
+    }
+
+    private void search(String str)
+    {
+        ArrayList<EducationModel> myLista = new ArrayList<>();
+        for(EducationModel object : entity)
+        {
+            if(object.getName().toLowerCase().contains(str.toLowerCase()))
+            {
+                myLista.add(object);
+            }
+        }
+
+        EducationAdapter searchimagea = new EducationAdapter(Education.this,myLista);
+        sRecyclerView.setAdapter(searchimagea);
+
+
+    }
+
 }
