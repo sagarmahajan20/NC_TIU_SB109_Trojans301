@@ -198,42 +198,13 @@ public class Profile extends AppCompatActivity {
 
 
 
-        //bottomnav
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.profile);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId())
-                {
-                    case R.id.profile:
-                        return true;
-
-                    case R.id.sell:
-                        startActivity(new Intent(getApplicationContext(),Sell.class));
-                        overridePendingTransition(0,0);
-                        return true;
-
-                    case R.id.home:
-                        startActivity(new Intent(getApplicationContext(), ImagesActivity.class));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-
-                return false;
-            }
-        });
-
-        //bottomend
-
     }
 
     @Override
     public void onBackPressed()
     {
 
-        Intent intent=new Intent(getApplicationContext(),ImagesActivity.class);
+        Intent intent=new Intent(getApplicationContext(),Home.class);
         startActivity(intent);
         finish();
 

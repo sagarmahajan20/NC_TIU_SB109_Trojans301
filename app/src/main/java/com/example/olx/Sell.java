@@ -84,8 +84,8 @@ public class Sell extends AppCompatActivity {
                     case R.id.sell:
                         return true;
 
-                    case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(), Profile.class));
+                    case R.id.rent:
+                        startActivity(new Intent(getApplicationContext(), Rent.class));
                         overridePendingTransition(0,0);
                         return true;
 
