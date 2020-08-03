@@ -154,7 +154,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/tractor"
                             android:layout_weight="1"/>
 
                         <Button
@@ -180,73 +180,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
-                            android:layout_weight="1"/>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/cborder"
-                            android:text="GET ON RENt"
-                            android:layout_weight="4"/>
-
-                    </LinearLayout>
-
-
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:weightSum="2">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rectangle"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
-                            android:layout_weight="1"/>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/cborder"
-                            android:text="GET ON RENt"
-                            android:layout_weight="4"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rectangle"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/seeder"
                             android:layout_weight="1"/>
 
                         <Button
@@ -286,7 +220,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/jcb"
                             android:layout_weight="1"/>
 
                         <Button
@@ -312,73 +246,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
-                            android:layout_weight="1"/>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/cborder"
-                            android:text="GET ON RENt"
-                            android:layout_weight="4"/>
-
-                    </LinearLayout>
-
-
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:weightSum="2">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rectangle"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
-                            android:layout_weight="1"/>
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/cborder"
-                            android:text="GET ON RENt"
-                            android:layout_weight="4"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/rectangle"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/transportgrain"
                             android:layout_weight="1"/>
 
                         <Button
@@ -418,7 +286,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/ripper"
                             android:layout_weight="1"/>
 
                         <Button
@@ -444,7 +312,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/tractor"
                             android:layout_weight="1"/>
 
                         <Button
@@ -484,7 +352,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/tractor"
                             android:layout_weight="1"/>
 
                         <Button
@@ -510,7 +378,139 @@
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
                             android:padding="10dp"
-                            android:background="@drawable/ic_launcher_foreground"
+                            android:background="@drawable/seeder"
+                            android:layout_weight="1"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/cborder"
+                            android:text="GET ON RENt"
+                            android:layout_weight="4"/>
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rectangle"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:padding="10dp"
+                            android:background="@drawable/jcb"
+                            android:layout_weight="1"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/cborder"
+                            android:text="GET ON RENt"
+                            android:layout_weight="4"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rectangle"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:padding="10dp"
+                            android:background="@drawable/transportgrain"
+                            android:layout_weight="1"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/cborder"
+                            android:text="GET ON RENt"
+                            android:layout_weight="4"/>
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rectangle"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:padding="10dp"
+                            android:background="@drawable/ripper"
+                            android:layout_weight="1"/>
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/cborder"
+                            android:text="GET ON RENt"
+                            android:layout_weight="4"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/rectangle"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:padding="10dp"
+                            android:background="@drawable/tractor"
                             android:layout_weight="1"/>
 
                         <Button
