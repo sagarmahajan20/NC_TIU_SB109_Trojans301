@@ -41,10 +41,11 @@ public class ImagesActivity extends AppCompatActivity{
     private ImageView log;
     private ImageAdapter mAdapter;
     private ProgressBar mProgressCircle;
+    private DatabaseReference sDatabaseRef;
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
     SearchView searchView;
-    String[] stringArray2 = {"Weeder","Sprayer","Driller", "Cultivator","Gardner"};
+    String[] stringArray2 = {"all","Weeder","Sprayer","Driller", "Cultivator","Gardner"};
 
 
 
@@ -67,13 +68,158 @@ public class ImagesActivity extends AppCompatActivity{
 
 
         //spinner
-
-        Spinner spinner = findViewById(R.id.drop);
-        Spinner spin = (Spinner) findViewById(R.id.drop);
-        spin.setOnItemSelectedListener(new  AdapterView.OnItemSelectedListener() {
+        Spinner spin =  findViewById(R.id.drop);
+        spin.setOnItemSelectedListener(new  AdapterView.OnItemSelectedListener()
+        {
             public void onItemSelected(AdapterView<?> parent, View view,
             int position, long id) {
-                Toast.makeText(getApplicationContext(),stringArray2[position] , Toast.LENGTH_LONG).show();
+                String fetch_by_category = stringArray2[position];
+                Toast.makeText(getApplicationContext(),fetch_by_category , Toast.LENGTH_LONG).show();
+
+                String all = "all";
+
+                if(all.equalsIgnoreCase("all"))
+                {
+                    mDatabaseRef.orderByChild("mName").equalTo("Sprayer").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Upload upload = postSnapshot.getValue(Upload.class);
+                                mUploads.add(upload);
+                            }
+                            mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                }
+                /*else if(fetch_by_category.equalsIgnoreCase("Sprayer"))
+                    {
+                    sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+                    sDatabaseRef.orderByChild("mName").equalTo("Sprayer").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Upload upload = postSnapshot.getValue(Upload.class);
+                                mUploads.add(upload);
+                            }
+                            mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                }
+                else if(fetch_by_category.equalsIgnoreCase("Weeder"))
+                {
+                    sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+                    sDatabaseRef.orderByChild("mName").equalTo("Weeder").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Upload upload = postSnapshot.getValue(Upload.class);
+                                mUploads.add(upload);
+                            }
+                            mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                }
+                else if(fetch_by_category.equalsIgnoreCase("Driller"))
+                {
+                    sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+                    sDatabaseRef.orderByChild("mName").equalTo("Driller").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Upload upload = postSnapshot.getValue(Upload.class);
+                                mUploads.add(upload);
+                            }
+                            mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                }
+                else if(fetch_by_category.equalsIgnoreCase("Cultivator"))
+                {
+                    sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+                    sDatabaseRef.orderByChild("mName").equalTo("Cultivator").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Upload upload = postSnapshot.getValue(Upload.class);
+                                mUploads.add(upload);
+                            }
+                            mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                }
+                else if(fetch_by_category.equalsIgnoreCase("Gardner"))
+                {
+                    sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+                    sDatabaseRef.orderByChild("mName").equalTo("Gardner").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Upload upload = postSnapshot.getValue(Upload.class);
+                                mUploads.add(upload);
+                            }
+                            mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            mProgressCircle.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                }*/
+                else
+                    {
+                        Toast.makeText(ImagesActivity.this,"No Data Found of this category",Toast.LENGTH_LONG).show();
+                    }
+
 
             }
 
