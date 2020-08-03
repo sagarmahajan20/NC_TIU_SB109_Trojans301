@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,7 +33,8 @@ import java.util.List;
 
 
 
-public class ImagesActivity extends AppCompatActivity {
+public class ImagesActivity extends AppCompatActivity{
+
 
     static String aadhar;
     private RecyclerView mRecyclerView;
@@ -40,7 +44,7 @@ public class ImagesActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
     SearchView searchView;
-
+    String[] stringArray2 = {"Weeder","Sprayer","Driller", "Cultivator","Gardner"};
 
 
 
@@ -62,7 +66,29 @@ public class ImagesActivity extends AppCompatActivity {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
 
+        //spinner
 
+        Spinner spinner = findViewById(R.id.drop);
+        Spinner spin = (Spinner) findViewById(R.id.drop);
+        spin.setOnItemSelectedListener(new  AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view,
+            int position, long id) {
+                Toast.makeText(getApplicationContext(),stringArray2[position] , Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,stringArray2);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spin.setAdapter(aa);
+
+
+        //spinner
         //logout
 
         //logout end
@@ -150,7 +176,6 @@ public class ImagesActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onStart()
     {
@@ -209,5 +234,8 @@ public class ImagesActivity extends AppCompatActivity {
         finish();
 
     }
+
+
+
 
 }
