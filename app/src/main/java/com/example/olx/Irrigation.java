@@ -2,10 +2,13 @@ package com.example.olx;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -24,7 +27,9 @@ import java.net.URL;
 
 public class Irrigation extends AppCompatActivity {
 
+    RelativeLayout weforcast;
     private static final String TAG = Irrigation.class.getSimpleName();
+    TextView temp;
     TextView tex1tView13;
     TextView textView13;
 
@@ -35,18 +40,32 @@ public class Irrigation extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_irrigation);
 
+        weforcast = findViewById(R.id.weather_forcast);
+        temp = findViewById(R.id.temp);
         tex1tView13 = findViewById(R.id.tex1tView13);
         textView13 = findViewById(R.id.textView13);
         URL parameterUrl = NetworkUtils.buildUrlForParameter();
         new FetchParameterDetails().execute(parameterUrl);
         Log.i(TAG, "onCreate: parameterUrl: " + parameterUrl);
+
+
+        weforcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),WeatherActivity.class));
+            }
+        });
+
+
     }
-    private class FetchParameterDetails extends AsyncTask<URL, Void, String> {
+    private class FetchParameterDetails extends AsyncTask<URL, Void, String>
+    {
 
 
         protected void onPreExecute() {
             super.onPreExecute();
         }
+
 
         @Override
         protected String doInBackground(URL... urls) {
@@ -60,6 +79,7 @@ public class Irrigation extends AppCompatActivity {
             Log.i(TAG, "doInBackground: parameterSearchResults: " + parameterSearchResults);
             return parameterSearchResults;
         }
+
 
         @Override
         protected void onPostExecute(String parameterSearchResults) {
@@ -78,5 +98,9 @@ public class Irrigation extends AppCompatActivity {
             }
             super.onPostExecute(parameterSearchResults);
         }
+
+
+
+
     }
 }
