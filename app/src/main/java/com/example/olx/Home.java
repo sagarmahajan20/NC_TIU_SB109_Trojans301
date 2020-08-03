@@ -17,6 +17,7 @@ import com.synnapps.carouselview.ImageListener;
 public class Home extends AppCompatActivity
 {
 
+    ImageView myprofile;
     ImageView logout;
     RelativeLayout olx;
     RelativeLayout irrigation;
@@ -42,6 +43,7 @@ public class Home extends AppCompatActivity
         //carouselView.setPageCount(sampleImages.length);
         //carouselView.setImageListener(imageListener);
 
+        myprofile = findViewById(R.id.myprofile);
         logout = findViewById(R.id.logout);
         olx = findViewById(R.id.olx);
         irrigation = findViewById(R.id.irrigation);
@@ -54,6 +56,14 @@ public class Home extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+
+        myprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Profile.class));
             }
         });
 
