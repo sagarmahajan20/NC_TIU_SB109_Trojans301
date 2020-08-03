@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/logoofsih_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Myscheme"></activity>
+        <activity android:name=".Sollution"></activity>
+        <activity android:name=".Myscheme" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".Irrigation" />
         <activity android:name=".Chatbot" />

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +37,12 @@ import java.util.concurrent.Executors;
 public class CameraActivity extends AppCompatActivity {
 
     private CameraView mCamera;
-    private Button mRetry, mGallery, mClose, mClick, mFlash, mCameraToggle;
-    private TextView mDetect;
-    private ImageView mImageView;
+    private Button mRetry, mGallery, mClose, mClick, mCameraToggle;
+//    private TextView mDetect;
+//    private ImageView mImageView;
     private Bitmap bitmap;
-    private ListView mListView;
+    private ProgressBar progressBar2;
+//    private ListView mListView;
     private String[] ResultItem;
     private String[] ResultName;
 
@@ -67,20 +69,19 @@ public class CameraActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mCamera = findViewById(R.id.activity_camera_camera_view);
-        mGallery = findViewById(R.id.activity_camera_button_gallery)
-        ;
+        mGallery = findViewById(R.id.activity_camera_button_gallery);
         mClose = findViewById(R.id.activity_camera_button_close);
         mClick = findViewById(R.id.activity_camera_button_click);
-
+        progressBar2 = findViewById(R.id.progressBar2);
 
         mRetry = findViewById(R.id.activity_camera_button_retry);
-        mDetect = findViewById(R.id.activity_camera_text_view_detect);
-        mImageView = findViewById(R.id.activity_camera_image_view);
+//        mDetect = findViewById(R.id.activity_camera_text_view_detect);
+//        mImageView = findViewById(R.id.activity_camera_image_view);
 
 
-        mFlash = findViewById(R.id.activity_camera_button_flash);
+//        mFlash = findViewById(R.id.activity_camera_button_flash);
         mCameraToggle = findViewById(R.id.activity_camera_button_camera_toggle);
-        mListView = findViewById(R.id.activity_camera_list_view);
+//        mListView = findViewById(R.id.activity_camera_list_view);
 
 
 
@@ -135,12 +136,12 @@ public class CameraActivity extends AppCompatActivity {
                 mCamera.toggleFacing();
             }
         });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showDetails(i);
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                showDetails(i);
+//            }
+//        });
         initTensorFlowAndLoadModel();
     }
 
@@ -151,22 +152,22 @@ public class CameraActivity extends AppCompatActivity {
     private void retry() {
         mCamera.start();
         mCameraToggle.setVisibility(View.VISIBLE);
-        mFlash.setVisibility(View.VISIBLE);
+//        mFlash.setVisibility(View.VISIBLE);
         mClick.setVisibility(View.VISIBLE);
         mRetry.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("DefaultLocale")
     private void detect() {
-        mImageView.setImageBitmap(bitmap);
+//        mImageView.setImageBitmap(bitmap);
         bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false);
         mCameraToggle.setVisibility(View.INVISIBLE);
-        mFlash.setVisibility(View.INVISIBLE);
+//        mFlash.setVisibility(View.INVISIBLE);
         mClick.setVisibility(View.INVISIBLE);
         mRetry.setVisibility(View.VISIBLE);
         try {
             final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
-            mDetect.setText(results.get(0).getTitle());
+//            mDetect.setText(results.get(0).getTitle());
             displayResult(results);
         }catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -182,13 +183,22 @@ public class CameraActivity extends AppCompatActivity {
             ResultItem[i] = results.get(i).getTitle() + "  " + String.format("(%.1f%%) ", results.get(i).getConfidence() * 100.0f);
             ResultName[i] = results.get(i).getTitle();
         }
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ResultItem);
-        mListView.setAdapter(myAdapter);
+//        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ResultItem);
+//        mListView.setAdapter(myAdapter);
+
+
+
+        Intent intent = new Intent(CameraActivity.this,Sollution.class);
+        intent.putExtra("diseaseLable",ResultItem[0]);
+        intent.putExtra("BitmapImage", bitmap);
+        progressBar2.setVisibility(View.GONE);
+        startActivity(intent);
     }
 
 
     private void clicked() {
         mCamera.captureImage();
+        progressBar2.setVisibility(View.VISIBLE);
 //        mCamera.stop();
     }
 
