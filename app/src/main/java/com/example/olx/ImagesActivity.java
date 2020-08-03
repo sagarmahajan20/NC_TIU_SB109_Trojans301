@@ -45,7 +45,7 @@ public class ImagesActivity extends AppCompatActivity{
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
     SearchView searchView;
-    String[] stringArray2 = {"Cultivator","Weeder","Sprayer","Driller","Gardner"};
+    String[] stringArray2 = {"all","Cultivator","Weeder","Sprayer","Driller","Gardner"};
 
 
 
@@ -78,10 +78,12 @@ public class ImagesActivity extends AppCompatActivity{
 
                 String weeder = "weeder";
                 String sprayer = "sprayer";
-                String Cultivator = "Cultivator";
+                String all = "all";
 
-                /*if(all.equalsIgnoreCase("all"))
+
+                if(all.equalsIgnoreCase(fetch_by_category))
                 {
+                    mUploads.clear();
                     mDatabaseRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,7 +104,7 @@ public class ImagesActivity extends AppCompatActivity{
                     });
 
                }
-                else*/ if(sprayer.equalsIgnoreCase(fetch_by_category))
+               else if(sprayer.equalsIgnoreCase(fetch_by_category))
                     {
                         mUploads.clear();
                     sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
