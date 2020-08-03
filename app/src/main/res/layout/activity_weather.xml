@@ -5,29 +5,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/new3"
     android:gravity="center"
     tools:context=".WeatherActivity">
 
-    <TextView
-        android:id="@+id/showLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Location"
-        android:textSize="15sp" />
-    <TextView
-        android:id="@+id/showPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Place"
-        android:textSize="15sp" />
-
-
-    <ListView
-        android:id="@+id/idListView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="58dp"
+        android:background="#00008577"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
 
-    </ListView>
+        <TextView
+            android:id="@+id/myprofile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/bg"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            android:text="Weather Forcasting"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:background="@drawable/rectangle"
+       android:layout_marginStart="10dp"
+       android:layout_marginEnd="10dp"
+       android:layout_marginBottom="30dp">
+
+
+       <TextView
+           android:id="@+id/showLocation"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:hint="Location"
+           android:layout_margin="10dp"
+           android:textColor="#000000"
+           android:fontFamily="serif"
+           android:textSize="20sp"
+           android:gravity="center" />
+       <TextView
+           android:id="@+id/showPlace"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:hint="Place"
+           android:layout_margin="10dp"
+           android:textColor="#000000"
+           android:fontFamily="serif"
+           android:textSize="20sp"
+           android:gravity="center"
+           android:textAlignment="center"/>
+
+
+
+
+       <ListView
+           android:id="@+id/idListView"
+           android:layout_margin="20dp"
+           android:padding="5dp"
+           android:layout_gravity="center"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+       </ListView>
+
+
+   </LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -110,6 +110,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/weatherfor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -132,7 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="50dp"
-                            android:hint="value"
+                            android:hint="Forcasting"
                             android:fontFamily="serif"
                             android:textColor="@color/bg"
                             android:textSize="15sp"
@@ -171,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="50dp"
-                            android:hint="value"
+                            android:hint="Forcasting"
                             android:fontFamily="serif"
                             android:textColor="@color/bg"
                             android:textSize="15sp"
@@ -245,7 +246,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="35dp"
+                            android:layout_marginTop="5dp"
                             android:fontFamily="serif"
                             android:gravity="center"
                             android:textColor="#0A79DF"
@@ -337,7 +338,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="35dp"
+                            android:layout_marginTop="5dp"
                             android:fontFamily="serif"
                             android:gravity="center"
                             android:textColor="#0A79DF"
@@ -429,7 +430,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="35dp"
+                            android:layout_marginTop="5dp"
                             android:fontFamily="serif"
                             android:gravity="center"
                             android:textColor="#0A79DF"

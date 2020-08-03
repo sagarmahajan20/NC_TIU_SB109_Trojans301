@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,6 +54,8 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_weather);
         ActivityCompat.requestPermissions( this,
                 new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
@@ -215,9 +218,9 @@ public class WeatherActivity extends AppCompatActivity {
             TextView TempTextView = convertView.findViewById(R.id.showTemp);
             TextView DescTextView = convertView.findViewById(R.id.showDesc);
 
-            dateTextView.setText(weather.getDate());
-            TempTextView.setText(weather.getTemp());
-            DescTextView.setText(weather.getDesc());
+            dateTextView.setText("Date : "+weather.getDate());
+            TempTextView.setText("Temprature : "+weather.getTemp());
+            DescTextView.setText("Weather Status"+weather.getDesc());
             return convertView;
         }
     }

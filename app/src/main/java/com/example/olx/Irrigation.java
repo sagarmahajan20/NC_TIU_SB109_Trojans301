@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ import java.net.URL;
 
 public class Irrigation extends AppCompatActivity {
 
-    RelativeLayout weforcast;
+    LinearLayout weforcast;
     private static final String TAG = Irrigation.class.getSimpleName();
     TextView temp;
     TextView tex1tView13;
@@ -40,7 +41,7 @@ public class Irrigation extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_irrigation);
 
-        weforcast = findViewById(R.id.weather_forcast);
+        weforcast = findViewById(R.id.weatherfor);
         temp = findViewById(R.id.temp);
         tex1tView13 = findViewById(R.id.tex1tView13);
         textView13 = findViewById(R.id.textView13);

@@ -9,16 +9,31 @@
         android:id="@+id/showDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Date" />
+        android:hint="Date"
+        android:layout_margin="5dp"
+        android:textColor="#000000"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:gravity="center"/>
     <TextView
         android:id="@+id/showTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="#000000"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:gravity="center"
         android:hint="Temperature" />
     <TextView
         android:id="@+id/showDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="#000000"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:gravity="center"
         android:hint="Description" />
 
 </LinearLayout>
