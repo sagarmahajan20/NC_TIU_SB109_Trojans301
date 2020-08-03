@@ -45,7 +45,7 @@ public class ImagesActivity extends AppCompatActivity{
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
     SearchView searchView;
-    String[] stringArray2 = {"all","Weeder","Sprayer","Driller", "Cultivator","Gardner"};
+    String[] stringArray2 = {"Cultivator","Weeder","Sprayer","Driller","Gardner"};
 
 
 
@@ -76,11 +76,13 @@ public class ImagesActivity extends AppCompatActivity{
                 String fetch_by_category = stringArray2[position];
                 Toast.makeText(getApplicationContext(),fetch_by_category , Toast.LENGTH_LONG).show();
 
-                String all = "all";
+                String weeder = "weeder";
+                String sprayer = "sprayer";
+                String Cultivator = "Cultivator";
 
-                if(all.equalsIgnoreCase("all"))
+                /*if(all.equalsIgnoreCase("all"))
                 {
-                    mDatabaseRef.orderByChild("mName").equalTo("Sprayer").addValueEventListener(new ValueEventListener() {
+                    mDatabaseRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -99,9 +101,10 @@ public class ImagesActivity extends AppCompatActivity{
                         }
                     });
 
-                }
-                /*else if(fetch_by_category.equalsIgnoreCase("Sprayer"))
+               }
+                else*/ if(sprayer.equalsIgnoreCase(fetch_by_category))
                     {
+                        mUploads.clear();
                     sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
                     sDatabaseRef.orderByChild("mName").equalTo("Sprayer").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -123,8 +126,9 @@ public class ImagesActivity extends AppCompatActivity{
                     });
 
                 }
-                else if(fetch_by_category.equalsIgnoreCase("Weeder"))
+                else if(weeder.equalsIgnoreCase(fetch_by_category))
                 {
+                    mUploads.clear();
                     sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
                     sDatabaseRef.orderByChild("mName").equalTo("Weeder").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -148,6 +152,7 @@ public class ImagesActivity extends AppCompatActivity{
                 }
                 else if(fetch_by_category.equalsIgnoreCase("Driller"))
                 {
+                    mUploads.clear();
                     sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
                     sDatabaseRef.orderByChild("mName").equalTo("Driller").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -171,6 +176,7 @@ public class ImagesActivity extends AppCompatActivity{
                 }
                 else if(fetch_by_category.equalsIgnoreCase("Cultivator"))
                 {
+                    mUploads.clear();
                     sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
                     sDatabaseRef.orderByChild("mName").equalTo("Cultivator").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -194,6 +200,7 @@ public class ImagesActivity extends AppCompatActivity{
                 }
                 else if(fetch_by_category.equalsIgnoreCase("Gardner"))
                 {
+                    mUploads.clear();
                     sDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
                     sDatabaseRef.orderByChild("mName").equalTo("Gardner").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -214,11 +221,11 @@ public class ImagesActivity extends AppCompatActivity{
                         }
                     });
 
-                }*/
-                else
-                    {
-                        Toast.makeText(ImagesActivity.this,"No Data Found of this category",Toast.LENGTH_LONG).show();
-                    }
+                }
+               else
+                {
+                    Toast.makeText(ImagesActivity.this,"No Data Found of this category",Toast.LENGTH_LONG).show();
+                }
 
 
             }
@@ -284,7 +291,7 @@ public class ImagesActivity extends AppCompatActivity{
 
 
         //fetch data
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        /*mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -300,7 +307,7 @@ public class ImagesActivity extends AppCompatActivity{
                 Toast.makeText(ImagesActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
-        });
+        });*/
         //fetch data end
 
         /*
@@ -353,7 +360,7 @@ public class ImagesActivity extends AppCompatActivity{
         ArrayList<Upload> myList = new ArrayList<>();
         for(Upload object : mUploads)
         {
-            if(object.getmName().toLowerCase().contains(str.toLowerCase()))
+            if(object.getmCategory().toLowerCase().contains(str.toLowerCase()))
             {
                 myList.add(object);
             }
